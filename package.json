@@ -1,0 +1,26 @@
+{
+  "name": "cdn-functions",
+  "version": "1.0.0",
+  "description": "cdn",
+  "main": "api/functions.js",
+  "scripts": {
+    "test": "netlify dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pocoyo-dev/cdn.git"
+  },
+  "author": "Pocoyo-dev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pocoyo-dev/cdn/issues"
+  },
+  "homepage": "https://github.com/Pocoyo-dev/cdn#readme",
+  "dependencies": {
+    "columnify": "^1.6.0",
+    "currency-converter-lt": "^1.2.4",
+    "node-deep-email-validator": "^0.0.2",
+    "node-fetch": "3.2.2",
+    "public-google-sheets-parser": "^1.2.6"
+  }
+}

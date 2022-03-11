@@ -1,0 +1,16 @@
+{
+    "buttons": [
+        {
+            "name": "🪲 Open Dev Server",
+            "script": "netlify dev"
+        },
+        {
+            "name": "🔓 Deploy to Dev",
+            "script": "netlify deploy ."
+        },
+        {
+            "name": "🔒 Deploy to Prod",
+            "script": "netlify deploy . --prod"
+        }
+    ]
+}
