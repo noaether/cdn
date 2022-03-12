@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-exports.handler = async (event, context) => {
+exports.handler=async function(event, context) {
   try {
     const main = await fetch('https://noadev.me/')
     const links = await fetch('https://links.noadev.me/');
@@ -13,4 +13,9 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ error: 'Failed fetching data' }),
     };
   }
-};
+}
+exports.module = {
+  name: 'status',
+  params: [' '],
+  example: 'status'
+}

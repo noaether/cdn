@@ -20,7 +20,7 @@
     "columnify": "^1.6.0",
     "currency-converter-lt": "^1.2.4",
     "node-deep-email-validator": "^0.0.2",
-    "node-fetch": "3.2.2",
+    "node-fetch": "^2.6.7",
     "public-google-sheets-parser": "^1.2.6"
   }
 }
