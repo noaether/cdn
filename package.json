@@ -2,9 +2,11 @@
   "name": "cdn-functions",
   "version": "1.0.0",
   "description": "cdn",
-  "main": "api/functions.js",
   "scripts": {
-    "test": "netlify dev"
+    "debug": "build_html.bat && netlify dev",
+    "prep": "build_html.bat && node genfunc.js",
+    "dev": "build_html.bat && netlify deploy",
+    "prod": "build_html.bat && netlify deploy --prod"
   },
   "repository": {
     "type": "git",
