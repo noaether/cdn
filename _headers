@@ -1,6 +1,0 @@
-/*
-  Content-Security-Policy: script-src 'self' https://api.mixpanel.com/ style-src 'self' img-src 'self' font-src 'self'
-  Referrer-Policy: no-referrer
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: SAMEORIGIN
-  X-XSS-Protection: 1; mode=block
