@@ -17,6 +17,7 @@ exports.handler = async function (event, context) {
       body: JSON.stringify({
         temp: openweather_res.main.temp,
         feels_like: openweather_res.main.feels_like,
+        description: openweather_res.weather[0].description,
         wind: openweather_res.wind.speed,
         winddeg: openweather_res.wind.deg,
         sunrise: sunriseStr,
