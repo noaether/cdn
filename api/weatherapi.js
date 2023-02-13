@@ -1,7 +1,6 @@
 const fetch = require("node-fetch");
 
 exports.handler=async function(event, context) {
-
   try {
     const openweather = await fetch('https://api.openweathermap.org/data/2.5/weather?id=6077246&units=metric&appid=e5b292ae2f9dae5f29e11499c2d82ece');
     const openweather_res = await openweather.json();
@@ -22,9 +21,7 @@ exports.handler=async function(event, context) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: 'Failed fetching data',
-        openweather: openweather.status,
-        sun: sun.status,
+        error: 'Failed fetching data'
       }),
     };
   }
