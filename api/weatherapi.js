@@ -4,7 +4,6 @@ const moment = require('moment-timezone');
 
 exports.handler = async function (event, context) {
   let openweather;
-  let sun;
   try {
     openweather = await fetch('https://api.openweathermap.org/data/2.5/weather?id=6077246&units=metric&appid=e5b292ae2f9dae5f29e11499c2d82ece');
     const openweather_res = await openweather.json();
@@ -18,8 +17,7 @@ exports.handler = async function (event, context) {
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
-        temp: openweather_res.main.temp,
-        feels_like: openweather_res.main.feels_like,
+        main: openweather_res.main,
         description: openweather_res.weather[0].description,
         wind: openweather_res.wind.speed,
         winddeg: openweather_res.wind.deg,
