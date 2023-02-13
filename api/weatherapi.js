@@ -7,8 +7,6 @@ exports.handler=async function(event, context) {
     const openweather_res = await openweather.json();
     const sun = await fetch('https://api.sunrisesunset.io/json?lat=45.5001&lng=-73.6825&timezone=EST&date=today');
     const sun_res = await sun.json();
-    console.log(openweather_res)
-    console.log(sun_res)
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -23,7 +21,11 @@ exports.handler=async function(event, context) {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed fetching data' }),
+      body: JSON.stringify({
+        error: 'Failed fetching data',
+        openweather: openweather.status,
+        sun: sun.status,
+      }),
     };
   }
 
