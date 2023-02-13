@@ -16,7 +16,6 @@ exports.handler = async function (event, context) {
       statusCode: 200,
       Headers : {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
       },
       body: JSON.stringify({
         temp: openweather_res.main.temp,
