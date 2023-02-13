@@ -21,6 +21,7 @@
   "dependencies": {
     "columnify": "^1.6.0",
     "currency-converter-lt": "^2.0.0-beta.0",
+    "moment-timezone": "^0.5.40",
     "node-deep-email-validator": "^0.0.2",
     "node-fetch": "^2.6.7",
     "public-google-sheets-parser": "^1.2.6",
