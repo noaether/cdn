@@ -23,6 +23,7 @@
     "currency-converter-lt": "^2.0.0-beta.0",
     "node-deep-email-validator": "^0.0.2",
     "node-fetch": "^2.6.7",
-    "public-google-sheets-parser": "^1.2.6"
+    "public-google-sheets-parser": "^1.2.6",
+    "suncalc": "^1.9.0"
   }
 }

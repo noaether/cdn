@@ -1,13 +1,15 @@
 const fetch = require("node-fetch");
+var SunCalc = require('suncalc');
 
-exports.handler=async function(event, context) {
+exports.handler = async function (event, context) {
   let openweather;
   let sun;
   try {
     openweather = await fetch('https://api.openweathermap.org/data/2.5/weather?id=6077246&units=metric&appid=e5b292ae2f9dae5f29e11499c2d82ece');
     const openweather_res = await openweather.json();
-    sun = await fetch('https://api.sunrisesunset.io/json?lat=45.5001&lng=-73.6825&timezone=EST&date=today');
-    const sun_res = await sun.json();
+    var times = SunCalc.getTimes(new Date(), 45.5001, -73.6825);
+    var sunriseStr = times.sunrise.getHours() + ':' + (times.sunrise.getMinutes() < 10 ? '0' + times.sunrise.getMinutes() : times.sunrise.getMinutes());
+    var sunsetStr = times.sunset.getHours() + ':' + (times.sunset.getMinutes() < 10 ? '0' + times.sunset.getMinutes() : times.sunset.getMinutes())
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -15,8 +17,8 @@ exports.handler=async function(event, context) {
         feels_like: openweather_res.main.feels_like,
         wind: openweather_res.wind.speed,
         winddeg: openweather_res.wind.deg,
-        sunrise: sun_res.results.sunrise,
-        sunset: sun_res.results.sunset,
+        sunrise: sunriseStr,
+        sunset: sunsetStr,
       }),
     };
   } catch (error) {
@@ -25,7 +27,6 @@ exports.handler=async function(event, context) {
       body: JSON.stringify({
         error: 'Failed fetching data',
         openweather: openweather.status,
-        sun: sun.status,
       }),
     };
   }
