@@ -23,7 +23,9 @@ exports.handler=async function(event, context) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: 'Failed fetching data'
+        error: 'Failed fetching data',
+        openweather: openweather.status,
+        sun: sun.status,
       }),
     };
   }
