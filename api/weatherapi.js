@@ -8,9 +8,10 @@ exports.handler = async function (event, context) {
   try {
     openweather = await fetch('https://api.openweathermap.org/data/2.5/weather?id=6077246&units=metric&appid=e5b292ae2f9dae5f29e11499c2d82ece');
     const openweather_res = await openweather.json();
-    var times = SunCalc.getTimes(moment().tz('America/New_York'), 45.5001, -73.6825);
-    var sunriseStr = times.sunrise.getHours() + ':' + (times.sunrise.getMinutes() < 10 ? '0' + times.sunrise.getMinutes() : times.sunrise.getMinutes());
-    var sunsetStr = times.sunset.getHours() + ':' + (times.sunset.getMinutes() < 10 ? '0' + times.sunset.getMinutes() : times.sunset.getMinutes())
+    var times = SunCalc.getTimes(new Date(), 45.5001, -73.6825);
+    let sunriseStr = moment.tz(times.sunrise, 'UTC').clone().tz('America/New_York').format('HH:mm');
+    let sunsetStr = moment.tz(times.sunset, 'UTC').clone().tz('America/New_York').format('HH:mm');
+
     return {
       statusCode: 200,
       body: JSON.stringify({
