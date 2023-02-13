@@ -14,6 +14,10 @@ exports.handler = async function (event, context) {
 
     return {
       statusCode: 200,
+      Headers : {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
       body: JSON.stringify({
         temp: openweather_res.main.temp,
         feels_like: openweather_res.main.feels_like,
