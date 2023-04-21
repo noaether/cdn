@@ -24,6 +24,7 @@
     "moment-timezone": "^0.5.40",
     "node-deep-email-validator": "^0.0.2",
     "node-fetch": "^2.6.7",
+    "openai": "^3.2.1",
     "public-google-sheets-parser": "^1.2.6",
     "suncalc": "^1.9.0"
   }

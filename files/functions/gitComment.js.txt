@@ -1,0 +1,96 @@
+const fetch = require("node-fetch");
+const { Configuration, OpenAIApi } = require("openai");
+
+let configuration = new Configuration({});
+
+exports.handler = async (event, context) => {
+;
+  const {commitId, GITHUB_REPOSITORY, GITHUB_TOKEN, API_KEY} =
+    JSON.parse(event.body);
+
+    const _url = `https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${commitId}`;
+  const _options = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  };
+
+  const _response = await fetch(_url, _options);
+  if (!_response.ok) {
+    const _text = await _response.text();
+    throw new Error(`Failed to retrieve commit: ${_response.status} ${_text}`);
+  }
+
+  const commit = await _response.json();
+  const commitMessage = commit.commit.message;
+  const diff = commit.files.map((file) => file.patch).join("\n");
+
+  configuration = new Configuration({
+    apiKey: API_KEY,
+  });
+
+  // Get the added and deleted lines from the diff
+  const addedLines = [];
+  const deletedLines = [];
+  for (const line of diff.split("\n")) {
+    if (line.startsWith("+")) {
+      addedLines.push(line.substring(1));
+    } else if (line.startsWith("-")) {
+      deletedLines.push(line.substring(1));
+    }
+  }
+
+  // Generate a comment using the OpenAI API
+  let prompt = `You are building a Java CLI-based email client. There is a new commit '${commitMessage}' that makes the following changes:\n`;
+  for (const line of addedLines) {
+    prompt += `+ ${line}\n`;
+  }
+  for (const line of deletedLines) {
+    prompt += `- ${line}\n`;
+  }
+  prompt +=
+    "Generates a comment that describes the code changes of the new commit in a way that is appropriate for a GitHub comment. Add a quality score for the code separated by a colon. The quality score should be between 0 and 10, with 0 being bad code and 10 being very good code.";
+
+  openai = new OpenAIApi(configuration);
+  response = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: prompt,
+    temperature: 0.5,
+    max_tokens: 512,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0.5,
+  });
+
+  const comment = `**Automated Commit Review** ${await response.data.choices[0].text.split(":")[0]} \n **Quality Score**: ${await response.data.choices[0].text.split(":")[1]}`;
+
+  const url = `https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${commitId}/comments`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+      Accept: "application/vnd.github.v3+json",
+    },
+    body: JSON.stringify({
+      "body": `${comment}`,
+    }),
+  };
+
+  const githubResponse = await fetch(url, options);
+  if (!githubResponse.ok) {
+    const text = await githubResponse.text();
+    throw new Error(
+      `Failed to generate comment: ${githubResponse.status} ${text} \n ${comment}`
+    );
+  }
+
+  return {
+    statusCode: 200,
+    body: "Comment generated successfully!",
+  };
+};
